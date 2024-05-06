@@ -1,8 +1,36 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <conio.h>
+#include <stdlib.h>
 
-//KayuryC
+#define RESET   "\x1b[0m"
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+
+// Função para imprimir o menu
+void printMenu(int escolha) {
+    system("cls");
+    printf("===========================\n");
+    printf("|        MENU PRINCIPAL    |\n");
+    printf("===========================\n");
+    if (escolha == 1) {
+        printf("| %s1. Jogar                %s |\n", RED, RESET);
+        printf("| %s2. Tutorial             %s |\n", YELLOW, RESET);
+        printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
+    } else if (escolha == 2) {
+        printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
+        printf("| %s2. Tutorial             %s \nFilha da o botao e chupa tora	\n", RED, RESET);
+        printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
+    } else if (escolha == 3) {
+        printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
+        printf("| %s2. Tutorial             %s |\n", YELLOW, RESET);
+        printf("| %s3. Sair do Jogo         %s |\n", RED, RESET);
+    }
+    printf("===========================\n");
+    printf("Use as setas para cima e para baixo para navegar. Pressione ENTER para selecionar.\n");
+}
+
+	//KayuryC
 //Definindo valores mapa1/teste...
 #define linha 10
 #define coluna 10
@@ -21,8 +49,12 @@ void print_quadrado(char board[linha][coluna], int player_linha, int player_colu
 		printf("\n");//Pula linha
 	}
 }
+
 int main() {
-	//Inprimir mapa1.
+    int escolha = 1;
+    char tecla;
+
+    //Inprimir mapa1.
 	char board[linha][coluna];
 	int player_linha = 0, player_coluna = 0;
 	for (int i = 0; i < linha; i++) {
@@ -44,14 +76,33 @@ int main() {
 	//Pra gente ter ideia da parede teremos que fazer um mapa/matriz 10x10
 	//Para não se confundir na hora de colocar as parades
 
-	int menu_principal;//Menu do jogo/Por enquanto é por leitura de input do leitor, seria bom o player poder selecionar nas setinhas
-	printf("\tBem-Vindo ao [NOME do jogo]...\n\n(1) Jogar\n(2) Tutorial\n(3) Sair do jogo\n");
-	scanf("%d", &menu_principal);
-	system("cls");//Limpar CMD
-	
-	//Falta adicionar mecanica para pecorrer no menu (Meu maior inimigo)
-	if(menu_principal == 1){
-	while (1) {
+
+    do {
+        printMenu(escolha);
+
+        // Lê a tecla pressionada
+        tecla = getch();
+
+        // Atualiza a seleção do menu
+        switch (tecla) {
+            case 72: // Tecla para cima
+                escolha--;
+                if (escolha < 1)
+                    escolha = 1;
+                break;
+            case 80: // Tecla para baixo
+                escolha++;
+                if (escolha > 3)
+                    escolha = 3;
+                break;
+        }
+    } while (tecla != 13); // 13 é o código ASCII para a tecla Enter
+
+    // Realiza a ação correspondente à escolha do usuário
+    switch (escolha) {
+        case 1:
+            system("cls");
+            while (1) {
 		print_quadrado(board, player_linha, player_coluna);
 
 		char move = getch();
@@ -80,19 +131,12 @@ int main() {
 				break;
 		}
 	}
-}
-	if(menu_principal == 2){
-		system("cls");//Limpar CMD
-		printf("\tTutorial>>\n\n.........TEXTO..........\n........TEXTO.........\n............TEXTO...........");
-	}
-	if(menu_principal == 3){
-		printf("\n\n\n\tSaindo do Jogo...\n\n\n");
-		system("pause");
-		
-	}
-	else{
-		printf("\tERRO!ERRO!ERRO!\nDigite uma das opcoes validas da proxima...");
-		return 0;
-	}
-	return 0;
+            
+            break;
+        case 3:
+            printf("Saindo do jogo...\n");
+            break;
+    }
+
+    return 0;
 }
