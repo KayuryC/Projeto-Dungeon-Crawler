@@ -11,7 +11,6 @@
 
 //Função para imprimir o menu
 void printMenu(int escolha) {
-        printf("| %s2. Tutorial             %s \nFilha da o botao e chupa tora	\n", RED, RESET);
 	system("cls");
 	printf("===========================\n");
 	printf("|        MENU PRINCIPAL    |\n");
