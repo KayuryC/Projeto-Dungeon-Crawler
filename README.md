@@ -12,9 +12,9 @@ O objetivo do jogo é mover um personagem através de um cenário, interagir com
  I: Interage com objetos no cenário.
 
 # Contribuidores👨‍💻
-> Kayury
-João Pedro Silva da Silva
-João Antonio
+-Kayury Carneiro
+-João Pedro Silva da Silva
+-João Antonio
 	
 # Professor👨‍🏫
-  Pedro girotto
+  -Pedro girotto
