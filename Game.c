@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
+
 //KayuryC
 //Definindo cores para menu
 #define RESET   "\x1b[0m"//Voltar para cor padrão ao sair de seleção
@@ -9,24 +10,25 @@
 #define GREEN   "\x1b[32m"//Verde
 #define YELLOW  "\x1b[33m"//Amarelo
 
+
 //Função para imprimir o menu
 void printMenu(int escolha) {
 	system("cls");
 	printf("===========================\n");
-	printf("|        MENU PRINCIPAL    |\n");
+	printf("|%s   DUNGEON CRAWLER       %s|\n", RED,RESET);
 	printf("===========================\n");
 	if (escolha == 1) {
-		printf("| %s1. Jogar                %s |\n", RED, RESET);
+		printf("| %s1. Jogar                %s |\n", GREEN, RESET);
 		printf("| %s2. Tutorial             %s |\n", YELLOW, RESET);
 		printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
 	} else if (escolha == 2) {
 		printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
-		printf("| %s2. Tutorial             %s \nAqui vai um pouco da historia do jogo\nFalta escrever o tutorial, temos que terminar a parte da chave \n", RED, RESET);
+		printf("| %s2. Tutorial             %s \n O objetivo do jogo e mover um personagem atraves da dungeon\ne interagir com objetos e enfrentar desafios perigosos.\nUse W, A, S, D para se mover pelo mapa.\nTome cuidado com os inimigos a sua volta.\n", GREEN, RESET);
 		printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
 	} else if (escolha == 3) {
 		printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
 		printf("| %s2. Tutorial             %s |\n", YELLOW, RESET);
-		printf("| %s3. Sair do Jogo         %s |\n", RED, RESET);
+		printf("| %s3. Sair do Jogo         %s |\n", GREEN, RESET);
 	}
 	printf("===========================\n");
 	printf("Use as setas para cima e para baixo para navegar. Pressione ENTER para selecionar.\n");
@@ -35,12 +37,10 @@ void printMenu(int escolha) {
 //Declarando variáveis
 char linha = 10;//Fase 1
 char coluna = 10; //Fase 1
-int enemy_linha, enemy_coluna;//Posição do inimigo
-int vida_player = 1;
-int escolha = 1;
-char tecla;
-int i, j;
-int existe = 1;
+int escolha = 1;//Opção menu
+char tecla;//Input tecla para menu
+int i, j;//Contador
+
 
 //Função board/Quadrado imprimir mapa1
 void print_fase1(char board[linha][coluna], int player_linha, int player_coluna) {
@@ -57,9 +57,9 @@ void print_fase1(char board[linha][coluna], int player_linha, int player_coluna)
 		printf("\n");//Pula linha
 	}
 }
-
 //Função pirncipal
 int main() {
+
 	//Inprimir mapa1.
 	char board[linha][coluna];
 	int player_linha = 5, player_coluna = 5;
@@ -69,6 +69,8 @@ int main() {
 
 		}
 	}
+
+
 	for(j = 0; j < 10; j++) {
 		board[0][j] = '*';
 	}
@@ -94,12 +96,9 @@ int main() {
 
 	board[9][4] = 'D';//Porta fechada
 	board[2][2] = '@';//Chave
-	board[2][4] = '=';//Porta aberta 
-	
-	if(board[player_linha][player_coluna] == board[9][4] =='='){
-		printf(" Parabens, voce passou de fase.\nAguarde o lancamento da fase 2...");
-	}
-	
+	board[2][4] = '=';//Porta aberta
+	board[3][7] = 'X';//Inimigo nivel 1
+
 	//Printar menu
 	do {
 		printMenu(escolha);
@@ -140,7 +139,7 @@ int main() {
 						break;
 					//Movimento para baixo
 					case 's':
-						if (player_linha < linha - 1 && board[player_linha + 1][player_coluna] != '*' && player_linha < linha - 1 && board[player_linha + 1][player_coluna] != 'D' )//Reconhcer parede
+						if (board[player_linha + 1][player_coluna] != '*' && board[player_linha + 1][player_coluna] != 'D' )//Reconhcer parede
 							player_linha++;
 						break;
 					//Movimento para esquerda
@@ -160,19 +159,56 @@ int main() {
 						exit(0);
 						break;
 					//Tecla i para pegar chave
-					case 105:
+					case 'i':
 						if(board[player_linha][player_coluna] == '@') {
 							board[2][2] = ' ';
 							board[9][4] = '=';
-							printf("%s Pegou a chave com sucesso! %s ", GREEN, RESET);
+							printf("%s Voce pegou a chave com sucesso! %s ", GREEN, RESET);
 							sleep(2);
 						} else if(board[player_linha][player_coluna] != '@') {
-							printf("%sVoce esta longe da chave...%s", YELLOW, RESET);
+							printf("%s Voce esta longe da chave...%s", YELLOW, RESET);
 							sleep(1);
 						}
 					default:
 						break;
 				}
+				int enemy_linha = 3, enemy_coluna = 7;
+				int mov_aleatorio;
+
+				srand(time(NULL));
+				for(i = 0; i < 4; i++) {
+					mov_aleatorio = 1 + rand() % 4;
+				}
+
+				//Para cima
+				if(mov_aleatorio == 1) {
+					if(enemy_linha - 1 && enemy_coluna != '*') {
+						enemy_linha, enemy_coluna = 'X';
+						enemy_linha--;
+					}
+				}
+				//Para baixo
+				if(mov_aleatorio == 2) {
+					if(enemy_linha + 1 && enemy_coluna != '*') {
+						enemy_linha, enemy_coluna = 'X';
+						enemy_linha++;
+					}
+				}
+				//Para esquerda
+				if(mov_aleatorio == 3) {
+					if(enemy_linha && enemy_coluna - 1 != '*') {
+						enemy_linha, enemy_coluna = 'X';
+						enemy_linha--;
+					}
+				}
+				//Para direita
+				if(mov_aleatorio == 4) {
+					if(enemy_linha && enemy_coluna + 1 != '*') {
+						enemy_linha, enemy_coluna = 'X';
+						enemy_linha++;
+					}
+				}
+
 			}
 			break;
 		case 3:
