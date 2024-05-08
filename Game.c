@@ -3,19 +3,17 @@
 #include <stdlib.h>
 #include <time.h>
 
-//KayuryC
 //Definindo cores para menu
 #define RESET   "\x1b[0m"//Voltar para cor padrão ao sair de seleção
 #define RED     "\x1b[31m"//Vermelho
 #define GREEN   "\x1b[32m"//Verde
 #define YELLOW  "\x1b[33m"//Amarelo
 
-
 //Função para imprimir o menu
 void printMenu(int escolha) {
 	system("cls");
 	printf("===========================\n");
-	printf("|%s   DUNGEON CRAWLER       %s|\n", RED,RESET);
+	printf("|%s     DUGEON CRAWLER       %s|\n", RED,RESET);
 	printf("===========================\n");
 	if (escolha == 1) {
 		printf("| %s1. Jogar                %s |\n", GREEN, RESET);
@@ -23,7 +21,7 @@ void printMenu(int escolha) {
 		printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
 	} else if (escolha == 2) {
 		printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
-		printf("| %s2. Tutorial             %s \n O objetivo do jogo e mover um personagem atraves da dungeon\ne interagir com objetos e enfrentar desafios perigosos.\nUse W, A, S, D para se mover pelo mapa.\nTome cuidado com os inimigos a sua volta.\n", GREEN, RESET);
+		printf("| %s2. Tutorial             %s \n O objetivo do jogo e mover um personagem atraves de um cenario\ne interagir com objetos e enfrentar desafios simples.\nUsando W, A, S, D para se movimentar e a tecla I para interagir com o mapa\nTome cuidado com os inimigos pelo mapa, boa sorte!\n", GREEN, RESET);
 		printf("| %s3. Sair do Jogo         %s |\n", YELLOW, RESET);
 	} else if (escolha == 3) {
 		printf("| %s1. Jogar                %s |\n", YELLOW, RESET);
@@ -33,14 +31,13 @@ void printMenu(int escolha) {
 	printf("===========================\n");
 	printf("Use as setas para cima e para baixo para navegar. Pressione ENTER para selecionar.\n");
 }
-
 //Declarando variáveis
 char linha = 10;//Fase 1
 char coluna = 10; //Fase 1
 int escolha = 1;//Opção menu
 char tecla;//Input tecla para menu
 int i, j;//Contador
-
+int player_vida = 1;//Vida do Player
 
 //Função board/Quadrado imprimir mapa1
 void print_fase1(char board[linha][coluna], int player_linha, int player_coluna) {
@@ -69,8 +66,6 @@ int main() {
 
 		}
 	}
-
-
 	for(j = 0; j < 10; j++) {
 		board[0][j] = '*';
 	}
@@ -93,12 +88,12 @@ int main() {
 	for(i = 0; i < 5; i++) {
 		board[i][4] = '*';
 	}
-
+	int enemy_linha = 3;
+	int enemy_coluna = 7;
 	board[9][4] = 'D';//Porta fechada
 	board[2][2] = '@';//Chave
 	board[2][4] = '=';//Porta aberta
-	board[3][7] = 'X';//Inimigo nivel 1
-
+	board[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
 	//Printar menu
 	do {
 		printMenu(escolha);
@@ -120,8 +115,6 @@ int main() {
 				break;
 		}
 	} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
-
-
 	//Realiza a ação correspondente a escolha do usuario
 	switch (escolha) {
 		case 1:
@@ -172,45 +165,45 @@ int main() {
 					default:
 						break;
 				}
-				int enemy_linha = 3, enemy_coluna = 7;
 				int mov_aleatorio;
 
 				srand(time(NULL));
-				for(i = 0; i < 4; i++) {
-					mov_aleatorio = 1 + rand() % 4;
-				}
 
-				//Para cima
-				if(mov_aleatorio == 1) {
-					if(enemy_linha - 1 && enemy_coluna != '*') {
-						enemy_linha, enemy_coluna = 'X';
-						enemy_linha--;
-					}
-				}
-				//Para baixo
-				if(mov_aleatorio == 2) {
-					if(enemy_linha + 1 && enemy_coluna != '*') {
-						enemy_linha, enemy_coluna = 'X';
-						enemy_linha++;
-					}
-				}
+				mov_aleatorio = 1 + rand() % 4;
+
 				//Para esquerda
-				if(mov_aleatorio == 3) {
-					if(enemy_linha && enemy_coluna - 1 != '*') {
-						enemy_linha, enemy_coluna = 'X';
-						enemy_linha--;
+				if(mov_aleatorio == 1) {
+					if(board[enemy_linha][enemy_coluna - 1] == ' ') {
+						board[enemy_linha][enemy_coluna] = ' ';
+						enemy_coluna--;
+						board[enemy_linha][enemy_coluna] = 'X';
 					}
 				}
 				//Para direita
-				if(mov_aleatorio == 4) {
-					if(enemy_linha && enemy_coluna + 1 != '*') {
-						enemy_linha, enemy_coluna = 'X';
-						enemy_linha++;
+				if(mov_aleatorio == 2) {
+					if(board[enemy_linha][enemy_coluna + 1] == ' ') {
+						board[enemy_linha][enemy_coluna] = ' ';
+						enemy_coluna++;
+						board[enemy_linha][enemy_coluna] = 'X';
 					}
 				}
-
+				//Para cima
+				if(mov_aleatorio == 3) {
+					if(board[enemy_linha - 1][enemy_coluna] == ' ') {
+						board[enemy_linha][enemy_coluna] = ' ';
+						enemy_linha--;
+						board[enemy_linha][enemy_coluna] = 'X';
+					}
+				}
+				//Para baixo
+				if(mov_aleatorio == 4) {
+					if(board[enemy_linha + 1][enemy_coluna] == ' ') {
+						board[enemy_linha][enemy_coluna] = ' ';
+						enemy_linha++;
+						board[enemy_linha][enemy_coluna] = 'X';
+					}
+				}
 			}
-			break;
 		case 3:
 			printf("Saindo do jogo...\n");
 			break;
