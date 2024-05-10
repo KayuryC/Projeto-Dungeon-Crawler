@@ -125,33 +125,33 @@ int main() {
 				char move = getch();//Reconhecer teclas de movimento
 
 				switch (move) {
-					//Movimento para cima
+						//Movimento para cima
 					case 'w':
 						if (player_linha > 0 && board[player_linha - 1][player_coluna] != '*')//Reconhcer parede
 							player_linha--;
 						break;
-					//Movimento para baixo
+						//Movimento para baixo
 					case 's':
 						if (board[player_linha + 1][player_coluna] != '*' && board[player_linha + 1][player_coluna] != 'D' )//Reconhcer parede
 							player_linha++;
 						break;
-					//Movimento para esquerda
+						//Movimento para esquerda
 					case 'a':
 						if (player_coluna > 0 && board[player_linha][player_coluna - 1] != '*')//Reconhcer parede
 							player_coluna--;
 						break;
-					//Movimento para direita
+						//Movimento para direita
 					case 'd':
 						if (player_coluna < coluna - 1 && board[player_linha][player_coluna + 1] != '*')//Reconhcer parede
 							player_coluna++;
 						break;
-					//Q para sair do jogo so para TESTE por enquanto
+						//Q para sair do jogo so para TESTE por enquanto
 					case 'q':
 						printf("%sEncerrando Jogo...%s",RED,RESET);
 						sleep(2);
 						exit(0);
 						break;
-					//Tecla i para pegar chave
+						//Tecla i para pegar chave
 					case 'i':
 						if(board[player_linha][player_coluna] == '@') {
 							board[2][2] = ' ';
@@ -162,11 +162,34 @@ int main() {
 							printf("%s Voce esta longe da chave...%s", YELLOW, RESET);
 							sleep(1);
 						}
+					case 27:
+						do {
+							printMenu(escolha);
+
+							//Le a tecla pressionada
+							tecla = getch();
+
+							//Atualiza a seleção do menu
+							switch (tecla) {
+								case 72://Tecla para cima
+									escolha--;
+									if (escolha < 1)
+										escolha = 1;
+									break;
+								case 80://Tecla para baixo
+									escolha++;
+									if (escolha > 3)
+										escolha = 3;
+									break;
+							}
+						} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
+
+
 					default:
 						break;
 				}
+				//Inimigo X
 				int mov_aleatorio;
-
 				srand(time(NULL));
 
 				mov_aleatorio = 1 + rand() % 4;
