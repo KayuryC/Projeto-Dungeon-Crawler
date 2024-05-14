@@ -279,10 +279,12 @@ int main() {
 					for(j = 0; j < 20; j++) {
 						board2[19][j] = '*';
 					}
-					board2[9][9] = '=';
-					board2[4][7] = '=';
-					board2[19][9] = 'D';//Porta fechada
-
+					board2[4][11] = '#';//Espinho
+					board2[4][3] = 'O';//botão mapa 2
+					board2[9][9] = '=';//Porta aberta
+					board2[4][7] = '=';//Porta aberta
+					board2[19][9] = 'D';//Porta fechada para proxima fase
+					board2[0][10] = '=';//Porta aberta
 					while(1) {
 						print_fase2(board2, player_linha2, player_coluna2);
 						char move = getch();
@@ -316,19 +318,31 @@ int main() {
 								printf("%sAte a proxima! ;) %s", GREEN, RESET);
 								exit(0);
 								break;
-							/*
+						//Interação do player com objetos
 							case 'i':
-								if(board[player_linha][player_coluna] == '@') {
-									board[2][2] = ' ';
-									board[9][4] = '=';
-									printf("%s Voce pegou a chave com sucesso! %s ", GREEN, RESET);
+								if(board2[player_linha2][player_coluna2] == board2[4][3]) {
+									board2[4][3] = ' ';
+									printf("%s Voce apertou o botao com sucesso! %s ", GREEN, RESET);
+									board2[13][4] = '@';
+									printf("%s\n Agora va ate a chave!%s", GREEN, RESET);
 									sleep(2);
-								} else if(board[player_linha][player_coluna] != '@') {
+								}else if(board2[player_linha2][player_coluna2] != board2[4][3]){
+									printf("%s Voce esta longe do botao...%s", YELLOW, RESET);
+									sleep(1);
+								}
+								else if(board2[player_linha2][player_coluna2] == board2[13][4]) {
+									board2[13][4] = ' ';
+									board2[19][9] = '=';
+									printf("%s Voce pegou a chave com sucesso%s", GREEN, RESET);
+									sleep(2);
+									printf("%s\nVa ate a porta%!s", GREEN, RESET);
+									sleep(1);
+								}else if(board2[player_linha2][player_coluna2] != board2[9][5]){
 									printf("%s Voce esta longe da chave...%s", YELLOW, RESET);
 									sleep(1);
 								}
 								break;
-								*/
+								
 							case 27:
 								do {
 									print_menu(escolha);
