@@ -10,7 +10,7 @@
 #define YELLOW  "\x1b[33m"//Amarelo
 
 //Função para imprimir o menu
-void printMenu(int escolha) {
+void print_menu(int escolha) {
 	system("cls");
 	printf("===========================\n");
 	printf("|%s     DUGEON CRAWLER       %s|\n", RED,RESET);
@@ -34,6 +34,8 @@ void printMenu(int escolha) {
 //Declarando variáveis
 char linha = 10;//Fase 1
 char coluna = 10; //Fase 1
+char linha2 = 20;
+char coluna2 = 20;
 int escolha = 1;//Opção menu
 char tecla;//Input tecla para menu
 int i, j;//Contador
@@ -54,6 +56,21 @@ void print_fase1(char board[linha][coluna], int player_linha, int player_coluna)
 		printf("\n");//Pula linha
 	}
 }
+//Função para imprimir mapa2
+void print_fase2(char board2[linha2][coluna2], int player_linha2, int player_coluna2) {
+	system("cls");//Limpar mapa1
+	int i, j;
+	for (i = 0; i < linha2; i++) {
+		for (j = 0; j < coluna2; j++) {
+			if (i == player_linha2 && j == player_coluna2) {
+				printf("& ");//Player
+			} else {
+				printf("%c ", board2[i][j]);
+			}
+		}
+		printf("\n");//Pula linha
+	}
+}
 //Função pirncipal
 int main() {
 
@@ -64,6 +81,14 @@ int main() {
 		for (j = 0; j < coluna; j++) {
 			board[i][j] = ' ';//Interior do mapa1/Alterar colocando algo dentro de ''
 
+		}
+	}
+	//Inprimir mapa2.
+	char board2[linha2][coluna2];
+	int player_linha2 = 1, player_coluna2 = 10;
+	for (i = 0; i < linha2; i++) {
+		for (j = 0; j < coluna2; j++) {
+			board2[i][j] = ' ';//Interior do mapa2/Alterar colocando algo dentro de ''
 		}
 	}
 	for(j = 0; j < 10; j++) {
@@ -96,7 +121,7 @@ int main() {
 	board[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
 	//Printar menu
 	do {
-		printMenu(escolha);
+		print_menu(escolha);
 
 		//Le a tecla pressionada
 		tecla = getch();
@@ -116,6 +141,7 @@ int main() {
 		}
 	} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
 	//Realiza a ação correspondente a escolha do usuario
+
 	switch (escolha) {
 		case 1:
 			system("cls");
@@ -125,35 +151,37 @@ int main() {
 				char move = getch();//Reconhecer teclas de movimento
 
 				switch (move) {
-						//Movimento para cima
+					//Movimento para cima
 					case 'w':
 						if (player_linha > 0 && board[player_linha - 1][player_coluna] != '*')//Reconhcer parede
 							player_linha--;
 						break;
-						//Movimento para baixo
+					//Movimento para baixo
 					case 's':
 						if (board[player_linha + 1][player_coluna] != '*' && board[player_linha + 1][player_coluna] != 'D' )//Reconhcer parede
 							player_linha++;
 						break;
-						//Movimento para esquerda
+					//Movimento para esquerda
 					case 'a':
 						if (player_coluna > 0 && board[player_linha][player_coluna - 1] != '*')//Reconhcer parede
 							player_coluna--;
 						break;
-						//Movimento para direita
+					//Movimento para direita
 					case 'd':
 						if (player_coluna < coluna - 1 && board[player_linha][player_coluna + 1] != '*')//Reconhcer parede
 							player_coluna++;
 						break;
-						//Q para sair do jogo so para TESTE por enquanto
+					//Q para sair do jogo so para TESTE por enquanto
 					case 'q':
 						printf("%sEncerrando Jogo...%s",RED,RESET);
 						sleep(2);
+						system("cls");
+						printf("%sAte a proxima! ;)%s", GREEN, RESET);
 						exit(0);
 						break;
-						//Tecla i para pegar chave
-					case 'i':
-						if(board[player_linha][player_coluna] == '@') {
+					//Tecla i para pegar chave
+					case 105:
+						if(board[player_linha][player_coluna] == board[2][2]) {
 							board[2][2] = ' ';
 							board[9][4] = '=';
 							printf("%s Voce pegou a chave com sucesso! %s ", GREEN, RESET);
@@ -162,9 +190,11 @@ int main() {
 							printf("%s Voce esta longe da chave...%s", YELLOW, RESET);
 							sleep(1);
 						}
+						break;
+
 					case 27:
 						do {
-							printMenu(escolha);
+							print_menu(escolha);
 
 							//Le a tecla pressionada
 							tecla = getch();
@@ -183,17 +213,13 @@ int main() {
 									break;
 							}
 						} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
-
-
 					default:
 						break;
 				}
 				//Inimigo X
 				int mov_aleatorio;
 				srand(time(NULL));
-
 				mov_aleatorio = 1 + rand() % 4;
-
 				//Para esquerda
 				if(mov_aleatorio == 1) {
 					if(board[enemy_linha][enemy_coluna - 1] == ' ') {
@@ -225,6 +251,110 @@ int main() {
 						enemy_linha++;
 						board[enemy_linha][enemy_coluna] = 'X';
 					}
+				}
+				//Finalizar mapa1
+				if(board[player_linha][player_coluna] == board[10][4]) {
+					//Parede de cima
+					for(j = 0; j < 20; j++) {
+						board2[0][j] = '*';
+					}
+					//Parede esquerda
+					for(i = 0; i < 20; i++) {
+						board2[i][0] = '*';
+					}
+					//Parede direita
+					for(i = 0; i < 20; i++) {
+						board2[i][19] = '*';
+					}
+					//Parede na vertical no meio da sala
+					for(i = 0; i < 10; i++) {
+						board2[i][7] = '*';
+					}
+					//Parede do meio da sala
+					for(j = 0; j < 20; j++) {
+						board2[9][j] = '*';
+					}
+
+					//Parede de baixo da sala
+					for(j = 0; j < 20; j++) {
+						board2[19][j] = '*';
+					}
+					board2[9][9] = '=';
+					board2[4][7] = '=';
+					board2[19][9] = 'D';//Porta fechada
+
+					while(1) {
+						print_fase2(board2, player_linha2, player_coluna2);
+						char move = getch();
+
+						switch (move) {
+							//Movimento para cima
+							case 'w':
+								if (player_linha2 > 0 && board2[player_linha2 - 1][player_coluna2] != '*')//Reconhcer parede
+									player_linha2--;
+								break;
+							//Movimento para baixo
+							case 's':
+								if (board2[player_linha2 + 1][player_coluna2] != '*' && board2[player_linha2 + 1][player_coluna2] != 'D' )//Reconhcer parede
+									player_linha2++;
+								break;
+							//Movimento para esquerda
+							case 'a':
+								if (player_coluna2 > 0 && board2[player_linha2][player_coluna2 - 1] != '*')//Reconhcer parede
+									player_coluna2--;
+								break;
+							//Movimento para direita
+							case 'd':
+								if (player_coluna2 < coluna2 - 1 && board2[player_linha2][player_coluna2 + 1] != '*')//Reconhcer parede
+									player_coluna2++;
+								break;
+							//Q para sair do jogo so para TESTE por enquanto
+							case 'q':
+								printf("%sEncerrando Jogo...%s",RED,RESET);
+								sleep(2);
+								system("cls");
+								printf("%sAte a proxima! ;) %s", GREEN, RESET);
+								exit(0);
+								break;
+							/*
+							case 'i':
+								if(board[player_linha][player_coluna] == '@') {
+									board[2][2] = ' ';
+									board[9][4] = '=';
+									printf("%s Voce pegou a chave com sucesso! %s ", GREEN, RESET);
+									sleep(2);
+								} else if(board[player_linha][player_coluna] != '@') {
+									printf("%s Voce esta longe da chave...%s", YELLOW, RESET);
+									sleep(1);
+								}
+								break;
+								*/
+							case 27:
+								do {
+									print_menu(escolha);
+
+									//Le a tecla pressionada
+									tecla = getch();
+
+									//Atualiza a seleção do menu
+									switch (tecla) {
+										case 72://Tecla para cima
+											escolha--;
+											if (escolha < 1)
+												escolha = 1;
+											break;
+										case 80://Tecla para baixo
+											escolha++;
+											if (escolha > 3)
+												escolha = 3;
+											break;
+									}
+								} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
+							default:
+								break;
+						}
+					}
+					break;
 				}
 			}
 		case 3:
