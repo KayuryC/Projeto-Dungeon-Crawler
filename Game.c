@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -145,10 +145,27 @@ int main() {
 	for(j = 0; j < 20; j++) {
 		board2[19][j] = '*';
 	}
+	for(i = 1; i <= 7; i++){
+		board2[i][9] = '#';
+	}
+	for(j = 9; j <= 17; j++){
+		board2[2][j] = '#';
+	}
+	for(j = 11; j <= 18; j++){
+		board2[4][j] = '#';
+	}
+	for(j = 10; j <= 17; j++){
+		board2[6][j] ='#';
+	}
+	for(j = 11; j <= 18; j++){
+		board2[8][j] = '#';
+	}
 	int enemy_linha2 = 16;
 	int enemy_coluna2 = 13;
 	
-	board[4][11] = '#';//Espinho
+	board2[3][3] = '#';
+	board2[4][2] = '#';
+	board2[4][4] = '#';
 	board2[4][3] = 'O';//botão mapa 2
 	board2[enemy_linha2][enemy_coluna2] = 'Y'; //Inimigo nivel 2
 	board2[9][9] = '=';//Porta aberta
@@ -251,6 +268,8 @@ int main() {
 						break;
 				}
 				if(player_linha == enemy_linha && player_coluna == enemy_coluna) {
+					player_linha = 5;
+					player_coluna = 5;
 					player_vida--;
 					if(player_vida == 0) {
 						printf("\n%sGame Over%s!",RED, RESET);
@@ -330,7 +349,7 @@ int main() {
 							case 'w':
 								if (player_linha2 > 0 && board2[player_linha2 - 1][player_coluna2] != '*')//Reconhcer parede
 									player_linha2--;
-								if(board2[enemy_linha2 - 1][enemy_coluna2] != '*' && board2[enemy_linha2 - 1][enemy_coluna2] == board2[player_linha2 - 1][player_coluna2] != '*') {
+								if(board2[enemy_linha2 - 1][enemy_coluna2] != '*' && board2[enemy_linha2 - 1][enemy_coluna2] == board2[player_linha2 - 1][player_coluna2] != '*' && board2[enemy_linha2 - 1][enemy_coluna2] != '@') {
 									board2[enemy_linha2][enemy_coluna2] = ' ';
 									enemy_linha2--;
 									board2[enemy_linha2][enemy_coluna2] = 'Y';
@@ -340,7 +359,7 @@ int main() {
 							case 's':
 								if (board2[player_linha2 + 1][player_coluna2] != '*' && board2[player_linha2 + 1][player_coluna2] != 'D')//Reconhcer parede
 									player_linha2++;
-								if(board2[enemy_linha2 + 1][enemy_coluna2] == ' ' && board2[enemy_linha2 + 1][enemy_coluna2 ] != 'D' && board2[enemy_linha2 + 1][enemy_coluna2] != '=' ) {
+								if(board2[enemy_linha2 + 1][enemy_coluna2] == ' ' && board2[enemy_linha2 + 1][enemy_coluna2 ] != 'D' && board2[enemy_linha2 + 1][enemy_coluna2] != '=' && board2[enemy_linha2 + 1][enemy_coluna2] != '@' ) {
 									board2[enemy_linha2][enemy_coluna2] = ' ';
 									enemy_linha2++;
 									board2[enemy_linha2][enemy_coluna2] = 'Y';
@@ -351,7 +370,7 @@ int main() {
 								if (player_coluna2 > 0 && board2[player_linha2][player_coluna2 - 1] != '*') { //Reconhcer parede
 									player_coluna2--;
 
-									if(board2[enemy_linha2][enemy_coluna2 - 1] == ' ' && board2[enemy_linha2][enemy_coluna2 - 1] != 'D' && board2[enemy_linha2][enemy_coluna2 - 1] != '=') {
+									if(board2[enemy_linha2][enemy_coluna2 - 1] == ' ' && board2[enemy_linha2][enemy_coluna2 - 1] != 'D' && board2[enemy_linha2][enemy_coluna2 - 1] != '=' && board2[enemy_linha2][enemy_coluna2 - 1] != '@') {
 										board2[enemy_linha2][enemy_coluna2] = ' ';
 										enemy_coluna2--;
 										board2[enemy_linha2][enemy_coluna2] = 'Y';
@@ -363,7 +382,7 @@ int main() {
 							case 'd':
 								if (player_coluna2 < coluna2 - 1 && board2[player_linha2][player_coluna2 + 1] != '*') { //Reconhcer parede
 									player_coluna2++;
-									if(board2[enemy_linha2][enemy_coluna2 + 1] == ' ' && board2[enemy_linha2][enemy_coluna2 + 1] != 'D' && board2[enemy_linha2][enemy_coluna2 + 1] != '=') {
+									if(board2[enemy_linha2][enemy_coluna2 + 1] == ' ' && board2[enemy_linha2][enemy_coluna2 + 1] != 'D' && board2[enemy_linha2][enemy_coluna2 + 1] != '=' && board2[enemy_linha2][enemy_coluna2 +1] != '@') {
 										board2[enemy_linha2][enemy_coluna2] = ' ';
 										enemy_coluna2++;
 										board2[enemy_linha2][enemy_coluna2] = 'Y';
@@ -421,7 +440,9 @@ int main() {
 							default:
 								break;
 						}
-						if(player_linha2 == enemy_linha2 && player_coluna2 == enemy_coluna2 && board2[player_linha2][player_coluna2] == '#') {
+						if(  enemy_linha2 == player_linha2 && enemy_coluna2 == player_coluna2 || board2[player_linha2][player_coluna2] == '#') {
+							player_linha2 = 1;
+							player_coluna2 = 10;
 							player_vida--;
 							if(player_vida == 0) {
 								printf("\n%sGame Over%s!",RED, RESET);
