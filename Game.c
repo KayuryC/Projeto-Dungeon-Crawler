@@ -36,10 +36,10 @@ void print_menu(int escolha) {
 //Declarando variáveis
 char linha = 10;//Fase 1
 char coluna = 10; //Fase 1
-char linha2 = 20;
-char coluna2 = 20;
-char linha3 = 40;
-char coluna3 = 40;
+char linha2 = 20;//Fase 2
+char coluna2 = 20;//Fase 2
+char linha3 = 40;//Fase 3
+char coluna3 = 40;//Fase 3
 int escolha = 1;//Opção menu
 char tecla;//Input tecla para menu
 int i, j;//Contador
@@ -118,28 +118,20 @@ int main() {
 		}
 	}
 	//MAPA1
-	//Paredes
-	for(j = 0; j < 10; j++) {
-		board[0][j] = '*';
-	}
-	//Parede esquerda
 	for(i = 0; i < 10; i++) {
-		board[i][0] = '*';
+		for(j = 0; j < 10; j++) {
+			board[0][j] = '*';
+			board[9][j] = '*';
+			board[i][0] = '*';
+			board[i][9] = '*';
+		}
 	}
-	//Parede direita
-	for(i = 0; i < 10; i++) {
-		board[i][9] = '*';
-	}
-	for(j = 0; j < 10; j++) {
-		board[9][j] = '*';
-	}
-
 	//Sala dentro mapa1
-	for(j = 0; j < 5; j++) {
-		board[4][j] = '*';
-	}
 	for(i = 0; i < 5; i++) {
-		board[i][4] = '*';
+		for(j = 0; j < 5; j++) {
+			board[4][j] = '*';
+			board[i][4] = '*';
+		}
 	}
 	int enemy_linha = 3;
 	int enemy_coluna = 7;
@@ -149,30 +141,28 @@ int main() {
 	board[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
 
 	//MAPA2
-	//Parede decima
-	for(j = 0; j < 20; j++) {
-		board2[0][j] = '*';
-	}
-	//Parede esquerda
+	//Parede decima	//Parede esquerda
 	for(i = 0; i < 20; i++) {
-		board2[i][0] = '*';
-	}
-	//Parede direita
-	for(i = 0; i < 20; i++) {
-		board2[i][19] = '*';
+		for(j = 0; j < 20; j++) {
+			board2[0][j] = '*';
+			board2[9][j] = '*';
+			board2[19][j] = '*';
+			board2[i][0] = '*';
+			board2[i][19] = '*';
+		}
 	}
 	//Parede na vertical no meio da sala
 	for(i = 0; i < 10; i++) {
 		board2[i][7] = '*';
 	}
-	//Parede do meio da sala
-	for(j = 0; j < 20; j++) {
-		board2[9][j] = '*';
-	}
-
-	//Parede de baixo da sala
-	for(j = 0; j < 20; j++) {
-		board2[19][j] = '*';
+	//Espinhos fase 2
+	for(i = 11; i < 18; i++) {
+		for(j = 11; j <= 18; j++) {
+			board2[4][j] = '#';
+			board2[8][j] = '#';
+			board2[i][6] = '#';
+			board2[i][2] = '#';
+		}
 	}
 	for(i = 1; i <= 7; i++) {
 		board2[i][9] = '#';
@@ -180,26 +170,14 @@ int main() {
 	for(j = 9; j <= 17; j++) {
 		board2[2][j] = '#';
 	}
-	for(j = 11; j <= 18; j++) {
-		board2[4][j] = '#';
-	}
 	for(j = 10; j <= 17; j++) {
 		board2[6][j] ='#';
-	}
-	for(j = 11; j <= 18; j++) {
-		board2[8][j] = '#';
 	}
 	for(i = 10; i < 16; i++) {
 		board2[i][11] = '#';
 	}
-	for(i = 11; i < 18; i++) {
-		board2[i][2] = '#';
-	}
 	for (j = 3; j < 7; j++) {
 		board2[17][j] = '#';
-	}
-	for(i = 11; i < 18; i++) {
-		board2[i][6] = '#';
 	}
 	int enemy_linha2 = 16;
 	int enemy_coluna2 = 13;
@@ -216,15 +194,22 @@ int main() {
 	//Mapa3
 	//Paredes
 	for(i = 0; i < 40; i++) {
-		for(j = 0; j < 40; j++){
+		for(j = 0; j < 40; j++) {
 			board3[0][j] = '*';
 			board3[39][j] = '*';
-		}
 			board3[i][0] = '*';
 			board3[i][39] = '*';
+		}
 	}
+	for(j = 1; j < 39; j++) {
+		board3[4][j] = '#';
+	}
+	//Objetos mapa3
 	board3[0][4] = '=';//Porta aberta
-	
+	board3[30][30] = '>';//Tp2
+	board3[2][20] = '>';//Tp1
+	board3[30][35] = 'O';
+
 	//Printar menu
 	do {
 		print_menu(escolha);
@@ -568,7 +553,7 @@ int main() {
 							while (1) {
 								//Printando a fase dentro do laço para funcionar melhor o efeito movimento
 								print_fase3(board3, player_linha3, player_coluna3);
-								printf("\nSua vida %s%d%s",GREEN, player_vida,RESET);
+								printf("Sua vida %s%d%s",GREEN, player_vida,RESET);
 								char move = getch();//Reconhecer teclas de movimento
 
 								switch (move) {
@@ -594,23 +579,24 @@ int main() {
 										break;
 									//Interação do player com objetos
 									case 'i':
-									/*if(board2[player_linha2][player_coluna2] == 'O') {
-										board2[4][3] = ' ';
-										board2[13][4] = '@';
-										printf("%s\nVoce apertou o botao com sucesso! %s ", GREEN, RESET);
-										printf("%s\nAgora va ate a chave!%s", GREEN, RESET);
-										sleep(2);
-									} else if(board2[player_linha2][player_coluna2] == '@') {
-										board2[13][4] = ' ';
-										board2[19][9] = '=';
-										printf("%s\nVoce pegou a chave com sucesso%s", GREEN, RESET);
-										printf("%s\nVa ate a porta!%s", GREEN, RESET);
-										sleep(2);
-									} else if(player_linha2 != '@' && player_coluna2 != '@') {
-										printf("%s\nProcure a chave...%s", YELLOW, RESET);
-										sleep(1);
-									}
-									break;*/
+										if(board3[player_linha3][player_coluna3] == 'O') {
+											board3[30][35] = ' ';
+											board3[4][5] = ' ';
+											board3[7][5] = '@';
+											printf("%s\nVoce apertou o botao com sucesso! %s ", GREEN, RESET);
+											printf("%s\nAgora va ate a chave!%s", GREEN, RESET);
+											sleep(2);
+										} else if(board3[player_linha3][player_coluna3] == '@') {
+											board3[7][3] = ' ';
+											board2[19][9] = '=';
+											printf("%s\nVoce pegou a chave com sucesso%s", GREEN, RESET);
+											printf("%s\nVa ate a porta!%s", GREEN, RESET);
+											sleep(2);
+										} else if(player_linha3 != '@' && player_coluna3 != '@') {
+											printf("%s\nProcure a chave...%s", YELLOW, RESET);
+											sleep(1);
+										}
+										break;
 									//Q para sair do jogo
 									case 'q':
 										printf("%s\nEncerrando Jogo...%s",RED,RESET);
@@ -619,6 +605,62 @@ int main() {
 										printf("%sAte a proxima! ;)%s", GREEN, RESET);
 										exit(0);
 										break;
+									case 27:
+										do {
+											print_menu(escolha);
+
+											//Le a tecla pressionada
+											tecla = getch();
+
+											//Atualiza a seleção do menu
+											switch (tecla) {
+												case 72://Tecla para cima
+													escolha--;
+													if (escolha < 1)
+														escolha = 1;
+													break;
+												case 80://Tecla para baixo
+													escolha++;
+													if (escolha > 3)
+														escolha = 3;
+													break;
+											}
+										} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
+									default:
+										break;
+								}
+								//Teleporte
+								if(player_linha3 == 2 && player_coluna3 == 20) {
+									player_linha3 = 30;
+									player_coluna3 = 31;
+								}
+								if(player_linha3 == 30 && player_coluna3 == 30) {
+									player_linha3 = 2;
+									player_coluna3 = 21;
+								}
+								//Inimigo X /mapa1
+								int mov_aleatorio3;
+								int enemy_linha = 2;
+								int enemy_coluna = 10;
+								board3[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
+								srand(time(NULL));
+								mov_aleatorio = 1 + rand() % 2;
+									
+								//Para cima
+								if(mov_aleatorio3 == 1) {
+									if(board3[enemy_linha - 1][enemy_coluna] == ' ') {
+										board3[enemy_linha][enemy_coluna] = ' ';
+										enemy_linha--;
+										board3[enemy_linha][enemy_coluna] = 'X';
+									}
+								}
+								//Para baixo
+								if(mov_aleatorio3 == 2) {
+									if(board3[enemy_linha + 1][enemy_coluna] == ' ') {
+										board3[enemy_linha][enemy_coluna] = ' ';
+										enemy_linha++;
+										board3[enemy_linha][enemy_coluna] = 'X';
+									}
 								}
 							}
 						}
