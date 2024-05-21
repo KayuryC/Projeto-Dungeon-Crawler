@@ -1,4 +1,5 @@
- #include <stdio.h>
+
+#include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -37,10 +38,13 @@ char linha = 10;//Fase 1
 char coluna = 10; //Fase 1
 char linha2 = 20;
 char coluna2 = 20;
+char linha3 = 40;
+char coluna3 = 40;
 int escolha = 1;//Opção menu
 char tecla;//Input tecla para menu
 int i, j;//Contador
-int player_vida = 3;
+int player_vida = 3;//Vida do player
+
 //Função board/Quadrado imprimir mapa1
 void print_fase1(char board[linha][coluna], int player_linha, int player_coluna) {
 	system("cls");//Limpar mapa1 a cada input do player
@@ -71,6 +75,21 @@ void print_fase2(char board2[linha2][coluna2], int player_linha2, int player_col
 		printf("\n");//Pula linha
 	}
 }
+//Função para imprimir mapa3
+void print_fase3(char board3[linha3][coluna3], int player_linha3, int player_coluna3) {
+	system("cls");//Limpar mapa1
+	int i, j;
+	for (i = 0; i < linha3; i++) {
+		for (j = 0; j < coluna3; j++) {
+			if (i == player_linha3 && j == player_coluna3) {
+				printf("& ");//Player
+			} else {
+				printf("%c ", board3[i][j]);
+			}
+		}
+		printf("\n");//Pula linha
+	}
+}
 //Função pirncipal
 int main() {
 	//Inprimir mapa1.
@@ -90,6 +109,16 @@ int main() {
 			board2[i][j] = ' ';//Interior do mapa2/Alterar colocando algo dentro de ''
 		}
 	}
+	//Inprimir mapa3.
+	char board3[linha3][coluna3];
+	int player_linha3 = 1, player_coluna3 = 4;
+	for (i = 0; i < linha3; i++) {
+		for (j = 0; j < coluna3; j++) {
+			board3[i][j] = ' ';//Interior do mapa2/Alterar colocando algo dentro de ''
+		}
+	}
+	//MAPA1
+	//Paredes
 	for(j = 0; j < 10; j++) {
 		board[0][j] = '*';
 	}
@@ -145,24 +174,35 @@ int main() {
 	for(j = 0; j < 20; j++) {
 		board2[19][j] = '*';
 	}
-	for(i = 1; i <= 7; i++){
+	for(i = 1; i <= 7; i++) {
 		board2[i][9] = '#';
 	}
-	for(j = 9; j <= 17; j++){
+	for(j = 9; j <= 17; j++) {
 		board2[2][j] = '#';
 	}
-	for(j = 11; j <= 18; j++){
+	for(j = 11; j <= 18; j++) {
 		board2[4][j] = '#';
 	}
-	for(j = 10; j <= 17; j++){
+	for(j = 10; j <= 17; j++) {
 		board2[6][j] ='#';
 	}
-	for(j = 11; j <= 18; j++){
+	for(j = 11; j <= 18; j++) {
 		board2[8][j] = '#';
+	}
+	for(i = 10; i < 16; i++) {
+		board2[i][11] = '#';
+	}
+	for(i = 11; i < 18; i++) {
+		board2[i][2] = '#';
+	}
+	for (j = 3; j < 7; j++) {
+		board2[17][j] = '#';
+	}
+	for(i = 11; i < 18; i++) {
+		board2[i][6] = '#';
 	}
 	int enemy_linha2 = 16;
 	int enemy_coluna2 = 13;
-	
 	board2[3][3] = '#';
 	board2[4][2] = '#';
 	board2[4][4] = '#';
@@ -173,6 +213,18 @@ int main() {
 	board2[19][9] = 'D';//Porta fechada para proxima fase
 	board2[0][10] = '=';//Porta aberta
 
+	//Mapa3
+	//Paredes
+	for(i = 0; i < 40; i++) {
+		for(j = 0; j < 40; j++){
+			board3[0][j] = '*';
+			board3[39][j] = '*';
+		}
+			board3[i][0] = '*';
+			board3[i][39] = '*';
+	}
+	board3[0][4] = '=';//Porta aberta
+	
 	//Printar menu
 	do {
 		print_menu(escolha);
@@ -223,7 +275,7 @@ int main() {
 						if (player_coluna < coluna - 1 && board[player_linha][player_coluna + 1] != '*')//Reconhcer parede
 							player_coluna++;
 						break;
-					//Q para sair do jogo so para TESTE por enquanto
+					//Q para sair do jogo
 					case 'q':
 						printf("%s\nEncerrando Jogo...%s",RED,RESET);
 						sleep(2);
@@ -267,14 +319,14 @@ int main() {
 					default:
 						break;
 				}
-				if(player_linha == enemy_linha && player_coluna == enemy_coluna) {
+				if(board[enemy_linha][enemy_coluna] == board[player_linha][player_coluna]) {
 					player_linha = 5;
 					player_coluna = 5;
 					player_vida--;
 					if(player_vida == 0) {
 						printf("\n%sGame Over%s!",RED, RESET);
 						sleep(1);
-						printf("\nVoce nao perdera o progresso.");
+						printf("\nVoce nao perdera o progresso...");
 						sleep(3);
 						system("cls");
 						do {
@@ -335,7 +387,7 @@ int main() {
 					}
 				}
 				//INICIAR MAPA2
-				if(board[player_linha][player_coluna] == board[10][4]) {
+				if(player_linha == 10 && player_coluna == 4) {
 					printf("%s\nNesta proxima fase tome cuidado com os espinhos e inimigos...%s",RED,RESET);
 					sleep(4);
 
@@ -389,7 +441,7 @@ int main() {
 									}
 								}
 								break;
-							//Q para sair do jogo so para TESTE por enquanto
+							//Q para sair do jogo
 							case 'q':
 								printf("%s\nEncerrando Jogo...%s",RED,RESET);
 								sleep(2);
@@ -440,14 +492,14 @@ int main() {
 							default:
 								break;
 						}
-						if(  enemy_linha2 == player_linha2 && enemy_coluna2 == player_coluna2 || board2[player_linha2][player_coluna2] == '#') {
+						if(enemy_linha2 == player_linha2 && enemy_coluna2 == player_coluna2 || board2[player_linha2][player_coluna2] == '#') {
 							player_linha2 = 1;
 							player_coluna2 = 10;
 							player_vida--;
 							if(player_vida == 0) {
 								printf("\n%sGame Over%s!",RED, RESET);
 								sleep(1);
-								printf("\nVoce nao perdera o progresso.");
+								printf("\nVoce nao perdera o progresso...");
 								sleep(3);
 								system("cls");
 								do {
@@ -471,12 +523,13 @@ int main() {
 								player_vida += 3;
 							}
 						}
-						//Inimigo X /MAPA2
+						//Inimigo Y /MAPA2
 						int mov_aleatorio2;
 						srand(time(NULL));
 						mov_aleatorio2 = 1 + rand() % 2;
+
 						//Para esquerda
-						if(mov_aleatorio2 == 1) {
+						if(enemy_coluna2 > player_coluna2) {
 							if(board2[enemy_linha2][enemy_coluna2 - 1] == ' ') {
 								board2[enemy_linha2][enemy_coluna2] = ' ';
 								enemy_coluna2--;
@@ -484,15 +537,92 @@ int main() {
 							}
 						}
 						//Para direita
-						if(mov_aleatorio2 == 2) {
+						if(enemy_coluna2 < player_coluna2) {
 							if(board2[enemy_linha2][enemy_coluna2 + 1] == ' ') {
 								board2[enemy_linha2][enemy_coluna2] = ' ';
 								enemy_coluna2++;
 								board2[enemy_linha2][enemy_coluna2] = 'Y';
 							}
 						}
+						//Para cima
+						if(enemy_linha2 > player_linha2) {
+							if(board2[enemy_linha2 - 1][enemy_coluna2] == ' ') {
+								board2[enemy_linha2][enemy_coluna2] = ' ';
+								enemy_linha2--;
+								board2[enemy_linha2][enemy_coluna2] = 'Y';
+							}
+						}
+						//Para baixo
+						if(enemy_linha2 < player_linha2) {
+							if(board2[enemy_linha2 + 1][enemy_coluna2] == ' ') {
+								board2[enemy_linha2][enemy_coluna2] = ' ';
+								enemy_linha2++;
+								board2[enemy_linha2][enemy_coluna2] = 'Y';
+							}
+						}
+						//INICIAR MAPA3
+						if(player_linha2 == 19 && player_coluna2 == 9) {
+							printf("%s\nCuidado...%s",RED,RESET);
+							sleep(4);
+
+							while (1) {
+								//Printando a fase dentro do laço para funcionar melhor o efeito movimento
+								print_fase3(board3, player_linha3, player_coluna3);
+								printf("\nSua vida %s%d%s",GREEN, player_vida,RESET);
+								char move = getch();//Reconhecer teclas de movimento
+
+								switch (move) {
+									//Movimento para cima
+									case 'w':
+										if (player_linha3 > 0 && board3[player_linha3 - 1][player_coluna3] != '*')//Reconhcer parede
+											player_linha3--;
+										break;
+									//Movimento para baixo
+									case 's':
+										if (board[player_linha3 + 1][player_coluna3] != '*' && board3[player_linha3 + 1][player_coluna3] != 'D' )//Reconhcer parede
+											player_linha3++;
+										break;
+									//Movimento para esquerda
+									case 'a':
+										if (player_coluna3 > 0 && board3[player_linha3][player_coluna3 - 1] != '*')//Reconhcer parede
+											player_coluna3--;
+										break;
+									//Movimento para direita
+									case 'd':
+										if (player_coluna3< coluna3 - 1 && board3[player_linha3][player_coluna3 + 1] != '*')//Reconhcer parede
+											player_coluna3++;
+										break;
+									//Interação do player com objetos
+									case 'i':
+									/*if(board2[player_linha2][player_coluna2] == 'O') {
+										board2[4][3] = ' ';
+										board2[13][4] = '@';
+										printf("%s\nVoce apertou o botao com sucesso! %s ", GREEN, RESET);
+										printf("%s\nAgora va ate a chave!%s", GREEN, RESET);
+										sleep(2);
+									} else if(board2[player_linha2][player_coluna2] == '@') {
+										board2[13][4] = ' ';
+										board2[19][9] = '=';
+										printf("%s\nVoce pegou a chave com sucesso%s", GREEN, RESET);
+										printf("%s\nVa ate a porta!%s", GREEN, RESET);
+										sleep(2);
+									} else if(player_linha2 != '@' && player_coluna2 != '@') {
+										printf("%s\nProcure a chave...%s", YELLOW, RESET);
+										sleep(1);
+									}
+									break;*/
+									//Q para sair do jogo
+									case 'q':
+										printf("%s\nEncerrando Jogo...%s",RED,RESET);
+										sleep(2);
+										system("cls");
+										printf("%sAte a proxima! ;)%s", GREEN, RESET);
+										exit(0);
+										break;
+								}
+							}
+						}
 					}
-					break;
 				}
 			}
 		case 3:
