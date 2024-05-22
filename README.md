@@ -18,3 +18,7 @@ O objetivo do jogo é mover um personagem através de um cenário, interagir com
 	
 # Professor👨‍🏫
   -Pedro girotto
+
+# Historia
+Em "Dungeon Crawler", o jogador assumem o papel de um personagem misterioso que acorda em uma escura e sinistra masmorra sem nenhuma lembrança de como chegou lá. 
+Com apenas a luz fraca de uma tocha para guiá-lo, os jogador devem explorar os corredores tortuosos e as salas sombrias da masmorra em busca de respostas.
