@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -203,12 +202,22 @@ int main() {
 	}
 	for(j = 1; j < 39; j++) {
 		board3[4][j] = '#';
+		board3[25][j] = '#';
 	}
+	for(i = 26; i < 39; i++) {
+		board3[i][20] = '#';
+	}
+	for(i = 4; i < 15; i++){
+		board3[i][8] = '#';
+	}
+
 	//Objetos mapa3
 	board3[0][4] = '=';//Porta aberta
 	board3[30][30] = '>';//Tp2
 	board3[2][20] = '>';//Tp1
 	board3[30][35] = 'O';
+	board3[33][20] = 'D';
+	board3[39][4] = 'D';
 
 	//Printar menu
 	do {
@@ -240,27 +249,27 @@ int main() {
 				char move = getch();//Reconhecer teclas de movimento
 
 				switch (move) {
-					//Movimento para cima
+						//Movimento para cima
 					case 'w':
 						if (player_linha > 0 && board[player_linha - 1][player_coluna] != '*')//Reconhcer parede
 							player_linha--;
 						break;
-					//Movimento para baixo
+						//Movimento para baixo
 					case 's':
 						if (board[player_linha + 1][player_coluna] != '*' && board[player_linha + 1][player_coluna] != 'D' )//Reconhcer parede
 							player_linha++;
 						break;
-					//Movimento para esquerda
+						//Movimento para esquerda
 					case 'a':
 						if (player_coluna > 0 && board[player_linha][player_coluna - 1] != '*')//Reconhcer parede
 							player_coluna--;
 						break;
-					//Movimento para direita
+						//Movimento para direita
 					case 'd':
 						if (player_coluna < coluna - 1 && board[player_linha][player_coluna + 1] != '*')//Reconhcer parede
 							player_coluna++;
 						break;
-					//Q para sair do jogo
+						//Q para sair do jogo
 					case 'q':
 						printf("%s\nEncerrando Jogo...%s",RED,RESET);
 						sleep(2);
@@ -268,7 +277,7 @@ int main() {
 						printf("%sAte a proxima! ;)%s", GREEN, RESET);
 						exit(0);
 						break;
-					//Tecla i para pegar chave
+						//Tecla i para pegar chave
 					case 105:
 						if(board[player_linha][player_coluna] == board[2][2]) {
 							board[2][2] = ' ';
@@ -382,7 +391,7 @@ int main() {
 						char move = getch();
 
 						switch (move) {
-							//Movimento para cima
+								//Movimento para cima
 							case 'w':
 								if (player_linha2 > 0 && board2[player_linha2 - 1][player_coluna2] != '*')//Reconhcer parede
 									player_linha2--;
@@ -392,7 +401,7 @@ int main() {
 									board2[enemy_linha2][enemy_coluna2] = 'Y';
 								}
 								break;
-							//Movimento para baixo
+								//Movimento para baixo
 							case 's':
 								if (board2[player_linha2 + 1][player_coluna2] != '*' && board2[player_linha2 + 1][player_coluna2] != 'D')//Reconhcer parede
 									player_linha2++;
@@ -402,7 +411,7 @@ int main() {
 									board2[enemy_linha2][enemy_coluna2] = 'Y';
 								}
 								break;
-							//Movimento para esquerda
+								//Movimento para esquerda
 							case 'a':
 								if (player_coluna2 > 0 && board2[player_linha2][player_coluna2 - 1] != '*') { //Reconhcer parede
 									player_coluna2--;
@@ -415,7 +424,7 @@ int main() {
 
 								}
 								break;
-							//Movimento para direita
+								//Movimento para direita
 							case 'd':
 								if (player_coluna2 < coluna2 - 1 && board2[player_linha2][player_coluna2 + 1] != '*') { //Reconhcer parede
 									player_coluna2++;
@@ -426,7 +435,7 @@ int main() {
 									}
 								}
 								break;
-							//Q para sair do jogo
+								//Q para sair do jogo
 							case 'q':
 								printf("%s\nEncerrando Jogo...%s",RED,RESET);
 								sleep(2);
@@ -434,7 +443,7 @@ int main() {
 								printf("%sAte a proxima! ;) %s", GREEN, RESET);
 								exit(0);
 								break;
-							//Interação do player com objetos
+								//Interação do player com objetos
 							case 'i':
 								if(board2[player_linha2][player_coluna2] == 'O') {
 									board2[4][3] = ' ';
@@ -557,27 +566,27 @@ int main() {
 								char move = getch();//Reconhecer teclas de movimento
 
 								switch (move) {
-									//Movimento para cima
+										//Movimento para cima
 									case 'w':
 										if (player_linha3 > 0 && board3[player_linha3 - 1][player_coluna3] != '*')//Reconhcer parede
 											player_linha3--;
 										break;
-									//Movimento para baixo
+										//Movimento para baixo
 									case 's':
 										if (board[player_linha3 + 1][player_coluna3] != '*' && board3[player_linha3 + 1][player_coluna3] != 'D' )//Reconhcer parede
 											player_linha3++;
 										break;
-									//Movimento para esquerda
+										//Movimento para esquerda
 									case 'a':
 										if (player_coluna3 > 0 && board3[player_linha3][player_coluna3 - 1] != '*')//Reconhcer parede
 											player_coluna3--;
 										break;
-									//Movimento para direita
+										//Movimento para direita
 									case 'd':
 										if (player_coluna3< coluna3 - 1 && board3[player_linha3][player_coluna3 + 1] != '*')//Reconhcer parede
 											player_coluna3++;
 										break;
-									//Interação do player com objetos
+										//Interação do player com objetos
 									case 'i':
 										if(board3[player_linha3][player_coluna3] == 'O') {
 											board3[30][35] = ' ';
@@ -587,8 +596,9 @@ int main() {
 											printf("%s\nAgora va ate a chave!%s", GREEN, RESET);
 											sleep(2);
 										} else if(board3[player_linha3][player_coluna3] == '@') {
-											board3[7][3] = ' ';
-											board2[19][9] = '=';
+											board3[7][5] = ' ';
+											board3[33][20] = '=';
+											board3[39][4] = '=';
 											printf("%s\nVoce pegou a chave com sucesso%s", GREEN, RESET);
 											printf("%s\nVa ate a porta!%s", GREEN, RESET);
 											sleep(2);
@@ -597,7 +607,7 @@ int main() {
 											sleep(1);
 										}
 										break;
-									//Q para sair do jogo
+										//Q para sair do jogo
 									case 'q':
 										printf("%s\nEncerrando Jogo...%s",RED,RESET);
 										sleep(2);
@@ -629,6 +639,37 @@ int main() {
 									default:
 										break;
 								}
+								if(enemy_linha == player_linha3 && enemy_coluna == player_coluna3 || board3[player_linha3][player_coluna3] == '#') {
+									player_linha3 = 1;
+									player_coluna3 = 5;
+									player_vida--;
+									if(player_vida == 0) {
+										printf("\n%sGame Over%s!",RED, RESET);
+										sleep(1);
+										printf("\nVoce nao perdera o progresso...");
+										sleep(3);
+										system("cls");
+										do {
+											print_menu(escolha);
+											//Le a tecla pressionada
+											tecla = getch();
+											//Atualiza a seleção do menu
+											switch (tecla) {
+												case 72://Tecla para cima
+													escolha--;
+													if (escolha < 1)
+														escolha = 1;
+													break;
+												case 80://Tecla para baixo
+													escolha++;
+													if (escolha > 3)
+														escolha = 3;
+													break;
+											}
+										} while (tecla != 13); //13 é o codigo ASCII para a tecla ENTER
+										player_vida += 3;
+									}
+								}
 								//Teleporte
 								if(player_linha3 == 2 && player_coluna3 == 20) {
 									player_linha3 = 30;
@@ -640,27 +681,32 @@ int main() {
 								}
 								//Inimigo X /mapa1
 								int mov_aleatorio3;
-								int enemy_linha = 2;
-								int enemy_coluna = 10;
+								int enemy_linha3 = 2;
+								int enemy_coluna3 = 10;
+
 								board3[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
 								srand(time(NULL));
-								mov_aleatorio = 1 + rand() % 2;
-									
+								mov_aleatorio3 = rand() % 2;
+
 								//Para cima
 								if(mov_aleatorio3 == 1) {
-									if(board3[enemy_linha - 1][enemy_coluna] == ' ') {
-										board3[enemy_linha][enemy_coluna] = ' ';
-										enemy_linha--;
-										board3[enemy_linha][enemy_coluna] = 'X';
+									if(board3[enemy_linha3 - 1][enemy_coluna3] == ' ') {
+										board3[enemy_linha3][enemy_coluna3] = ' ';
+										enemy_linha3--;
+										board3[enemy_linha3][enemy_coluna3] = 'X';
 									}
 								}
 								//Para baixo
 								if(mov_aleatorio3 == 2) {
-									if(board3[enemy_linha + 1][enemy_coluna] == ' ') {
-										board3[enemy_linha][enemy_coluna] = ' ';
-										enemy_linha++;
-										board3[enemy_linha][enemy_coluna] = 'X';
+									if(board3[enemy_linha3 + 1][enemy_coluna3] == ' ') {
+										board3[enemy_linha3][enemy_coluna3] = ' ';
+										enemy_linha3++;
+										board3[enemy_linha3][enemy_coluna3] = 'X';
 									}
+								}
+								if(player_linha3 == 39 && player_coluna3 == 4){
+									system("cls");
+									printf("Muito Obrigado por jogar!");
 								}
 							}
 						}
