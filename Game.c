@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -679,13 +680,11 @@ int main() {
 									player_linha3 = 2;
 									player_coluna3 = 21;
 								}
-								//Inimigo X /mapa1
+								/*/Inimigo X /mapa1
 								int mov_aleatorio3;
 								int enemy_linha3 = 2;
 								int enemy_coluna3 = 10;
-
-								board3[enemy_linha][enemy_coluna] = 'X'; //Inimigo nivel 1
-								srand(time(NULL));
+								board3[enemy_linha3][enemy_coluna3] = 'X'; //Inimigo nivel 1
 								mov_aleatorio3 = rand() % 2;
 
 								//Para cima
@@ -707,7 +706,7 @@ int main() {
 								if(player_linha3 == 39 && player_coluna3 == 4){
 									system("cls");
 									printf("Muito Obrigado por jogar!");
-								}
+								}*/
 							}
 						}
 					}
