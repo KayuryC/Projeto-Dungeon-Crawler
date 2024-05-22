@@ -1,4 +1,4 @@
-# Projeto Dugeon Crawler
+# Projeto Dungeon Crawler
 
 Este é um jogo simples de aventura desenvolvido em linguagem C, onde o player tem que coletar a chave para avançar de fase. 
 Desenvolvido para intuito avaliativo,como um projeto para explorar o uso de matrizes e controles básicos de movimentação em C. 
